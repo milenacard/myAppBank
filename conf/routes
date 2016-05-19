@@ -1,0 +1,9 @@
+GET		/		                                        controllers.HomeController.index
+GET     /clientes/:documentType/:documentNumber	        controllers.ClientController.findById(documentType:String, documentNumber:String,token:String)
+GET     /clientes	                                    controllers.ClientController.find
+
+GET     /ejecutivos                                     controllers.ExecutiveController.find
+GET     /ejecutivos/:documentType/:documentNumber     	controllers.ExecutiveController.findById(documentType:String, documentNumber:String)
+
+POST	/clientes/add	                                controllers.ClientController.create
+
