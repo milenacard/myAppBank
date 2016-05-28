@@ -8,12 +8,12 @@ HTTP Authorization Bearer \[TOKEN\]
 
 o como parametro en la ruta
 
-https://shrouded-beyond-64833.herokuapp.com/\[RUTA_A_CONSUMIR\]?token=\[TOKEN\]
+http://mybankinternal.herokuapp.com/\[RUTA_A_CONSUMIR\]?token=\[TOKEN\]
 
 ## Rutas habilitadas: Clientes
 
 ### GET /clientes
-Ej. (https://shrouded-beyond-64833.herokuapp.com/clientes)
+Ej. (http://mybankinternal.herokuapp.com/clientes)
 
 Retorna un array con la informacion de todos los clientes y con la siguiente estructura
 
@@ -56,7 +56,7 @@ Retorna un array con la informacion de todos los clientes y con la siguiente est
 ```
 
 ### GET /clientes/\[tipoDocumento\]/\[NumeroDocumento\]?token=\[TOKEN\]
-Ej. (https://shrouded-beyond-64833.herokuapp.com/clientes/adultonn/1037008984?token=TOKEN)
+Ej. (http://mybankinternal.herokuapp.com/clientes/adultonn/1037008984?token=TOKEN)
 
 Retorna un array de un solo objeto con toda la informacion del cliente que concuerde con el tipo de documento y el numero de identificacion, se valida el token de firebase
 
@@ -134,6 +134,6 @@ correo: String (Requerido)
 ## Rutas habilitadas: Ejecutivos
 
 ### Exactamente igual a la de clientes. La url cambia en vez de `clientes`se usa `ejecutivos`
-Ej. (https://shrouded-beyond-64833.herokuapp.com/ejecutivos/adultonn/1037008984?token=TOKEN)
+Ej. (http://mybankinternal.herokuapp.com/ejecutivos/adultonn/1037008984?token=TOKEN)
 
 
