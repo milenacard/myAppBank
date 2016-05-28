@@ -1,9 +1,13 @@
 GET		/		                                                controllers.HomeController.index
 GET     /clientes/:documentType/:documentNumber	                controllers.ClientController.findById(documentType:String, documentNumber:String,token:String)
 GET     /clientes	                                            controllers.ClientController.find
-
+GET     /clientes/:documentType/:documentNumber/productos	    controllers.ClientController.findProductsById(documentType:String, documentNumber:String)                                                 
+GET     /clientes/:documentType/:documentNumber/info            controllers.ClientController.findInfoById(documentType:String, documentNumber:String)
 GET     /ejecutivos                                             controllers.ExecutiveController.find
-GET     /ejecutivos/:documentType/:documentNumber     	        controllers.ExecutiveController.findById(documentType:String, documentNumber:String)
+GET     /ejecutivos/:documentType/:documentNumber     	        controllers.ExecutiveController.findById(documentType:String, documentNumber:String,token:String)
 
 POST	/clientes/post	                                        controllers.ClientController.create
 POST    /clientes/update                                        controllers.ClientController.update
+
+POST	/ejecutivos/post	                                    controllers.ExecutiveController.create
+POST    /ejecutivos/update                                      controllers.ExecutiveController.update

@@ -19,6 +19,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class ClientController @Inject()(val reactiveMongoApi: ReactiveMongoApi)(implicit exec: ExecutionContext) extends Controller with MongoController with ReactiveMongoComponents {
 
   def clientesFuture: Future[JSONCollection] = database.map(_.collection[JSONCollection]("Clientes"))
+    
 
     def find = Action.async {
       val cursor: Future[List[JsObject]] = clientesFuture.flatMap{ clientes => 
@@ -76,35 +77,66 @@ class ClientController @Inject()(val reactiveMongoApi: ReactiveMongoApi)(implici
 
 
   def findById(documentType:String, documentNumber:String,token:String) = Action.async {
-     val auth = new Autenticador
-    Logger.info(documentType);
-    
-    val cursor: Future[List[JsObject]] = clientesFuture.flatMap{ clientes =>
-    //Si es valido retorna el query
-    if(auth.validarToken(token)){Logger.info("Valid Token")
-      // find all people with name `name`
+    val auth = new Autenticador
+    Logger.info(documentType)
+      val cursor: Future[List[JsObject]] = clientesFuture.flatMap{ clientes =>
       clientes.find(Json.obj("tipo_doc" -> documentType, "documento" -> documentNumber)).
       // sort them by creation date
       sort(Json.obj("documento" -> -1)).
       // perform the query and get a cursor of JsObject
       cursor[JsObject](ReadPreference.primary).collect[List]()
       //SI el token no es valido retorna un JsonObject Vacio
+    }
+    //Si es valido retorna el query
+    if(auth.validarToken(token)){Logger.info("Valid Token")
+     cursor.map { clientes =>
+      Ok(Json.toJson(clientes)).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")}
+    //Si es invalido retorna un error. Y si no encuentra nada en la query es porque no existe.,
     }else{
-         clientes.find(Json.obj("tipo_doc" -> "0", "documento" -> "non")).
-      // sort them by creation date
-      sort(Json.obj("documento" -> -1)).
-      // perform the query and get a cursor of JsObject
-      cursor[JsObject](ReadPreference.primary).collect[List]()
+        Logger.info("Invalid token")
+        cursor.map { clientes =>
+      Ok(Json.obj("err"->"Invalid Token")).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")}
     
     }
-}
-    cursor.map { clientes =>
-      Ok(Json.toJson(clientes)).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
-    
-    
   }
 
 
+//Mezclar con findById para que solo retorne la  informacion
+  def findInfoById(documentType:String, documentNumber:String) = Action.async {
+    val cursor: Future[List[JsObject]] = clientesFuture.flatMap{ clientes =>
+      clientes.find(Json.obj("tipo_doc"->documentType, "documento" -> documentNumber)).
+        sort(Json.obj("documento" -> -1)).
+        projection(Json.obj(
+        "nombre_completo" -> 1,
+        "tipo_doc" -> 1,
+        "documento" -> 1,
+        "correo" -> 1,
+        "ejecutivo_encargado" -> 1,
+        "direccion" -> 1,
+        "celular" -> 1,
+        "ubicacion"->1, 
+          "_id" -> 0)).
+        cursor[JsObject](ReadPreference.primary).collect[List]()
+    }
 
-}
+    cursor.map { clientes =>
+      Ok(Json.toJson(clientes)).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
+    }
+  }
+
+  def findProductsById(documentType:String, documentNumber:String) = Action.async {
+    val cursor: Future[List[JsObject]] = clientesFuture.flatMap{ clientes =>
+      clientes.find(Json.obj("tipo_doc"->documentType, "documento" -> documentNumber)).
+        sort(Json.obj("documento" -> -1)).
+        projection(Json.obj(
+          "productos" -> 1,
+          "_id" -> 0)).
+        cursor[JsObject](ReadPreference.primary).collect[List]()
+    }
+
+    cursor.map { clientes =>
+      Ok(Json.toJson(clientes)).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
+    }
+  }
+
 }
