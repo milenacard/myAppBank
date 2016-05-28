@@ -58,8 +58,7 @@ class ClientController @Inject()(val reactiveMongoApi: ReactiveMongoApi)(implici
       "correo" -> request.body.asFormUrlEncoded.get("correo")(0),
       "ejecutivo_encargado" -> request.body.asFormUrlEncoded.get("ejecutivo_encargado")(0),
       "direccion" -> request.body.asFormUrlEncoded.get("direccion")(0),
-      "celular" -> request.body.asFormUrlEncoded.get("celular")(0),
-      "productos" -> "[]"
+      "celular" -> request.body.asFormUrlEncoded.get("celular")(0)
     )
 
     val selector = Json.obj(
