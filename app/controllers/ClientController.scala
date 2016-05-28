@@ -31,14 +31,16 @@ class ClientController @Inject()(val reactiveMongoApi: ReactiveMongoApi)(implici
       }
     }
 
-    def create = Action.async { request => 
-      
+    def create = Action.async { request =>
+
       val json = Json.obj(
         "nombre_completo" -> request.body.asFormUrlEncoded.get("nombre_completo")(0),
         "tipo_doc" -> request.body.asFormUrlEncoded.get("tipo_doc")(0),
         "documento" -> request.body.asFormUrlEncoded.get("documento")(0),
         "correo" -> request.body.asFormUrlEncoded.get("correo")(0),
         "ejecutivo_encargado" -> request.body.asFormUrlEncoded.get("ejecutivo_encargado")(0),
+        "direccion" -> request.body.asFormUrlEncoded.get("direccion")(0),
+        "celular" -> request.body.asFormUrlEncoded.get("celular")(0),
         "productos" -> "[]"
       )
 
@@ -46,6 +48,29 @@ class ClientController @Inject()(val reactiveMongoApi: ReactiveMongoApi)(implici
         clientes <- clientesFuture
         lastError <- clientes.insert(json)
       } yield Ok("Mongo LastError: %s" . format(lastError))
+
+  }
+
+  def update = Action.async { request =>
+
+    val json = Json.obj(
+      "nombre_completo" -> request.body.asFormUrlEncoded.get("nombre_completo")(0),
+      "correo" -> request.body.asFormUrlEncoded.get("correo")(0),
+      "ejecutivo_encargado" -> request.body.asFormUrlEncoded.get("ejecutivo_encargado")(0),
+      "direccion" -> request.body.asFormUrlEncoded.get("direccion")(0),
+      "celular" -> request.body.asFormUrlEncoded.get("celular")(0),
+      "productos" -> "[]"
+    )
+
+    val selector = Json.obj(
+      "tipo_doc" -> request.body.asFormUrlEncoded.get("tipo_doc")(0),
+      "documento" -> request.body.asFormUrlEncoded.get("documento")(0)
+    )
+
+    for {
+      clientes <- clientesFuture
+      lastError <- clientes.update(selector,json)
+    } yield Ok("Mongo LastError: %s" . format(lastError))
 
   }
 
