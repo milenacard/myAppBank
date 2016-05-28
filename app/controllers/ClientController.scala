@@ -54,11 +54,12 @@ class ClientController @Inject()(val reactiveMongoApi: ReactiveMongoApi)(implici
   def update = Action.async { request =>
 
     val json = Json.obj(
-      "nombre_completo" -> request.body.asFormUrlEncoded.get("nombre_completo")(0),
-      "correo" -> request.body.asFormUrlEncoded.get("correo")(0),
-      "ejecutivo_encargado" -> request.body.asFormUrlEncoded.get("ejecutivo_encargado")(0),
-      "direccion" -> request.body.asFormUrlEncoded.get("direccion")(0),
-      "celular" -> request.body.asFormUrlEncoded.get("celular")(0)
+      "$set" -> Json.obj(
+        "nombre_completo" -> request.body.asFormUrlEncoded.get("nombre_completo")(0),
+        "correo" -> request.body.asFormUrlEncoded.get("correo")(0),
+        "ejecutivo_encargado" -> request.body.asFormUrlEncoded.get("ejecutivo_encargado")(0),
+        "direccion" -> request.body.asFormUrlEncoded.get("direccion")(0),
+        "celular" -> request.body.asFormUrlEncoded.get("celular")(0))
     )
 
     val selector = Json.obj(
