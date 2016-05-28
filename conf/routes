@@ -1,4 +1,4 @@
-
+GET		/		                                        controllers.HomeController.index
 GET     /clientes/:documentType/:documentNumber	        controllers.ClientController.findById(documentType:String, documentNumber:String,token:String)
 GET     /clientes	                                    controllers.ClientController.find
 
