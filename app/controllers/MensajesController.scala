@@ -42,7 +42,7 @@ class MensajesController @Inject()(val reactiveMongoApi: ReactiveMongoApi)(impli
       }
     }
     
-    def findMessagesByMail(correo:String,token:String) = Action.async {
+    def findMessagesByMail(correo:String) = Action.async {
     val auth = new Autenticador
     //Logger.info(documentType)
       val cursor: Future[List[JsObject]] = mensajesFuture.flatMap{ mensajes =>
@@ -67,7 +67,7 @@ class MensajesController @Inject()(val reactiveMongoApi: ReactiveMongoApi)(impli
   }
   
     
-    def findNewMessagesByMail(correo:String,token:String) = Action.async {
+    def findNewMessagesByMail(correo:String) = Action.async {
     val auth = new Autenticador
     //Logger.info(documentType)
       val cursor: Future[List[JsObject]] = mensajesFuture.flatMap{ mensajes =>
@@ -162,7 +162,7 @@ class MensajesController @Inject()(val reactiveMongoApi: ReactiveMongoApi)(impli
     }
   
   
-    def getStatusByMail(correo:String,token:String) = Action.async {
+    def getStatusByMail(correo:String) = Action.async {
     val auth = new Autenticador
     //Logger.info(documentType)
       val cursor: Future[List[JsObject]] = ChatStatusFuture.flatMap{ ChatStatus =>
