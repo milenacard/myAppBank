@@ -90,6 +90,26 @@ class MensajesController @Inject()(val reactiveMongoApi: ReactiveMongoApi)(impli
     
     }
   }
+   
+ def updateReadMessage = Action.async {request =>
+    val json = Json.obj(
+      "$set" -> Json.obj(
+        "estado"->"leido"
+        )
+    )
+
+    val selector = Json.obj(
+        "de" -> request.body.asFormUrlEncoded.get("de")(0),
+        "para" -> request.body.asFormUrlEncoded.get("para")(0),
+        "fecha" -> request.body.asFormUrlEncoded.get("fecha")(0)
+    )
+
+    for {
+      mensajes <- mensajesFuture
+      lastError <- mensajes.update(selector,json)
+    } yield Ok("Mensaje Leído")
+  }  
+   
     
     def createNewMessage = Action.async { request =>
 

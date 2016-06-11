@@ -20,4 +20,5 @@ POST    /ejecutivos/update                                      controllers.Exec
 POST    /chat/connect                                           controllers.MensajesController.connect
 POST    /chat/disconnect                                        controllers.MensajesController.disconnect
 POST    /mensajes/post                                          controllers.MensajesController.createNewMessage
+POST    /mensajes/update                                        controllers.MensajesController.updateReadMessage
 
