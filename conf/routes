@@ -1,15 +1,15 @@
 GET		/		                                                controllers.HomeController.index
-GET     /clientes/:documentType/:documentNumber	                controllers.ClientController.findById(documentType:String, documentNumber:String,token:String)
+GET     /clientes/:documentType/:documentNumber	                controllers.ClientController.findById(documentType:String, documentNumber:String)
 GET     /clientes	                                            controllers.ClientController.find
 GET     /clientes/:documentType/:documentNumber/productos	    controllers.ClientController.findProductsById(documentType:String, documentNumber:String)                                                 
 GET     /clientes/:documentType/:documentNumber/info            controllers.ClientController.findInfoById(documentType:String, documentNumber:String)
 GET     /ejecutivos                                             controllers.ExecutiveController.find
-GET     /ejecutivos/:documentType/:documentNumber     	        controllers.ExecutiveController.findById(documentType:String, documentNumber:String,token:String)
+GET     /ejecutivos/:documentType/:documentNumber     	        controllers.ExecutiveController.findById(documentType:String, documentNumber:String)
 GET     /mensajes                                               controllers.MensajesController.find
-GET     /mensajes/:correo                                       controllers.MensajesController.findMessagesByMail(correo:String,token:String)
-GET     /mensajes/nuevos/:correo                                controllers.MensajesController.findNewMessagesByMail(correo:String,token:String)
+GET     /mensajes/:correo                                       controllers.MensajesController.findMessagesByMail(correo:String)
+GET     /mensajes/nuevos/:correo                                controllers.MensajesController.findNewMessagesByMail(correo:String)
 GET     /chat                                                   controllers.MensajesController.findChats
-GET     /chat/estado/:correo                                    controllers.MensajesController.getStatusByMail(correo:String,token:String)
+GET     /chat/estado/:correo                                    controllers.MensajesController.getStatusByMail(correo:String)
 
 
 POST	/clientes/post	                                        controllers.ClientController.create
